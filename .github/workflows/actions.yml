@@ -6,7 +6,21 @@ on:
   # schedule:
   #   - cron: "0/5 * * * *"
   #   - cron: "0/6 * * * *"
-  # push:
+  push:
+    # branches-ignore: # Cannot be used along with branches key
+    branches:
+      - master
+      - 'feature/*'
+      - 'feature/**'
+      - '!feature/A' # Will ingnore this branch
+    # tags-ignore: 
+    tags:
+      - v1.*
+    # paths-ignore:
+      # - "docs/**"
+    paths:
+      - "**.js"
+      - "!filename.js"
   pull_request:
     types: [closed, assigned, opened]
 
