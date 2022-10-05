@@ -12,4 +12,4 @@ jobs:
         with: # To pass parameters -> Param: Value
           who-to-greet: John
       - name: Log Greeting Time
-        run: echo "{{ steps.greet.outputs.time }}"
+        run: echo "{{ steps.greet.output.time }}"
