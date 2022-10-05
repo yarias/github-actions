@@ -9,7 +9,13 @@ jobs:
       - name: List FIles
         run: |
           pwd
-          ls
+          ls -a
+      - name: Checkout
+        uses: actions/checkout@v1 # Authenticates with GH, fetch and checkout to the commits that triggers this workflow
+      - name: List FIles after checkout
+        run: |
+          pwd
+          ls -a
       - name: simple javascript Actions
         id: greet # ID required to reference step outputs in other steps
         uses: actions/hello-world-javascript-action@v1 # Repo name @branch or @release-version or @Commit
