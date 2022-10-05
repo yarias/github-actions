@@ -2,10 +2,10 @@ name: Actions Workflow
 
 on:
   repository_dispatch: # Used to trigger WF from external sources
-    types: [build] # types can be whatever we pass in api dispatches payload
-  schedule:
-    - cron: "0/5 * * * *"
-    - cron: "0/6 * * * *"
+    types: [build] # types can be whatever we pass in api dispatches payload. Payload keys: event_type, client_payload
+  # schedule:
+  #   - cron: "0/5 * * * *"
+  #   - cron: "0/6 * * * *"
   # push:
   pull_request:
     types: [closed, assigned, opened]
@@ -14,6 +14,8 @@ jobs:
   run-github-actions:
     runs-on: ubuntu-latest
     steps:
+      - name: Payload dispatches
+        run: echo ${{ github.event.client_payload.env }}
       - name: Print GitHub env veriables
         run: |
           echo $GITHUB_SHA
