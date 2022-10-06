@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: Dump using functions
         run: |
-          echo ${{ contains("hello", "ll") }}
-          echo ${{ startswith("hello", "he") }}
-          echo ${{ endswith("hello", "lo") }}
-          echo ${{ format("Hello {0} {1} {2}", "worl", "!", "!") }}
+          echo ${{ contains('hello', 'll') }}
+          echo ${{ startswith('hello', 'he') }}
+          echo ${{ endswith('hello', 'lo') }}
+          echo ${{ format('Hello {0} {1} {2}', 'worl', '!', '!') }}
