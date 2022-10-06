@@ -29,3 +29,12 @@ jobs:
         env:
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         run: echo "$MATRIX_CONTEXT"
+  functions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump using functions
+        run: |
+          echo ${{ contains("hello", "ll") }}
+          echo ${{ startswith("hello", "he") }}
+          echo ${{ endswith("hello", "lo") }}
+          echo ${{ format("Hello {0} {1} {2}", "worl", "!", "!") }}
