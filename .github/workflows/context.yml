@@ -1,5 +1,5 @@
 name: Context
-on: push
+on: [push, pull_request]
 
 jobs:
   print-object-contexts:
@@ -12,12 +12,14 @@ jobs:
       - name: Dump Job Context
         env: 
           JOB_CONTEXT: ${{ toJson(job) }}
-        run: echo "$JOB_CONTEXT"
+        run: eccho "$JOB_CONTEXT"
       - name: Dump Steps Context
+        if: failure() # True only if previous step has failed. success(), cancel()
         env:
           STEP_CONTEXT: ${{ toJson(steps) }}
         run: echo "$STEP_CONTEXT"
       - name: Dump Runner Context
+        if: alwasy() # This step will always run
         env:
           RUNNER_CONTEXT: ${{ toJson(runner) }}
         run: echo "$RUNNER_CONTEXT"
@@ -31,9 +33,11 @@ jobs:
         run: echo "$MATRIX_CONTEXT"
   functions:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     steps:
       - name: Dump using functions
         run: |
+          # strings must be within single quotes
           echo ${{ contains('hello', 'll') }}
           echo ${{ startswith('hello', 'he') }}
           echo ${{ endswith('hello', 'lo') }}
