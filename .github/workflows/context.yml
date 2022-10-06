@@ -1,0 +1,31 @@
+name: Context
+on: push
+
+jobs:
+  print-object-contexts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub Context
+        env: 
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump Job Context
+        env: 
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump Steps Context
+        env:
+          STEP_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEP_CONTEXT"
+      - name: Dump Runner Context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump Strategy Context
+        env:
+          STRATEGY_CONSTEXT: ${{ toJson(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump Matrix Context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
