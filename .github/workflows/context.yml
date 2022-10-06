@@ -4,7 +4,11 @@ on: [push, pull_request]
 jobs:
   print-object-contexts:
     runs-on: ubuntu-latest
-    steps:
+    timeout-minutes: 360 # Can be placed at step level as well
+    continue-on-error: true
+    steps: 
+    # if there are failures only the ones with valid if conditions will run
+    # Unless you use continue_on_error key
       - name: Dump GitHub Context
         env: 
           GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -19,7 +23,6 @@ jobs:
           STEP_CONTEXT: ${{ toJson(steps) }}
         run: echo "$STEP_CONTEXT"
       - name: Dump Runner Context
-        if: always() # This step will always run
         env:
           RUNNER_CONTEXT: ${{ toJson(runner) }}
         run: echo "$RUNNER_CONTEXT"
@@ -28,6 +31,7 @@ jobs:
           STRATEGY_CONSTEXT: ${{ toJson(strategy) }}
         run: echo "$STRATEGY_CONTEXT"
       - name: Dump Matrix Context
+        if: always() # This step will always run
         env:
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         run: echo "$MATRIX_CONTEXT"
