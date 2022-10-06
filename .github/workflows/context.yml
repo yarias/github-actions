@@ -19,7 +19,7 @@ jobs:
           STEP_CONTEXT: ${{ toJson(steps) }}
         run: echo "$STEP_CONTEXT"
       - name: Dump Runner Context
-        if: alwasy() # This step will always run
+        if: always() # This step will always run
         env:
           RUNNER_CONTEXT: ${{ toJson(runner) }}
         run: echo "$RUNNER_CONTEXT"
