@@ -1,0 +1,21 @@
+name: Matrix
+
+on: push
+
+jobs:
+  node-version:
+    strategy: # Used to run steps in different os, versions, etc
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        nove_version: [6, 8, 10]
+      # fail-fast: true # Means that if any other job fails, the other ones will fail also.
+      # max-parallel: 2 # By default it tries to run the max dependon on available runner in github
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Log node version
+        run: node -v
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node_version }}
+      - name: Log node version  
+        run: node -v
