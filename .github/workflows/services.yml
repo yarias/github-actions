@@ -19,6 +19,12 @@ jobs:
         with: 
           entrypoint: '/usr/local/bin/node'
           args: -v
+      - uses: actions/checkout@v1 # Checkout to access script.sh
+      - name: Docker Step run script
+        uses: docker://node:12.14.1-alpine3.10 
+        with: 
+          entrypoint: ./script.sh
+          args: "First Arg"
   service-docker_compose:
     runs-on: ubuntu-latest
     services:
