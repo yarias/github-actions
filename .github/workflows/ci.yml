@@ -19,17 +19,22 @@ jobs:
         with: 
           node-versionL: "12.x"
       - run: npm ci
+        working-directory: ${{ env.working-directory }}
       - run: npm run format:check
+        working-directory: ${{ env.working-directory }}
       - run: npm test -- --coverage
+        working-directory: ${{ env.working-directory }}
         env:
           CI: true
       - name: build Project
         if: github.event_name == 'push'
         run: npm run build
+        working-directory: ${{ env.working-directory }}
 
       - name: Deploy Staging
         if: github.event_name == 'push'
         run: npx surge --project ./build --domain silent-apparatus.surge.sh
+        working-directory: ${{ env.working-directory }}
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
