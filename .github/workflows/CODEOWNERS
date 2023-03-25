@@ -1,0 +1,4 @@
+* @yarias
+*.js @yarias
+*.yml @yarias
+/public/ @yarias
