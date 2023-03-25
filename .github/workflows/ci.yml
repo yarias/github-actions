@@ -17,7 +17,7 @@ jobs:
       - name: use NodeJS
         uses: actions/setup-node@v1
         with: 
-          node-versionL: "12.x"
+          node-version: "12.x"
       - run: npm ci
         working-directory: ${{ env.working-directory }}
       - run: npm run format:check
