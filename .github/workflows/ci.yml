@@ -13,7 +13,9 @@ jobs:
         uses: actions/setup-node@v1
         with: 
           node-versionL: "12.x"
-      - run: npm ci
+      - run: |
+          cd my-app
+          npm ci
       - run: npm run format:check
       - run: npm test -- --coverage
         env:
