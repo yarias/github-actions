@@ -3,6 +3,11 @@ name: CI
 on:
   pull_request:
     branches: [develop]
+  push:
+    branches: [develop]
+
+env: 
+  working-directory: ./my-app
 
 jobs:
   build:
@@ -13,14 +18,19 @@ jobs:
         uses: actions/setup-node@v1
         with: 
           node-versionL: "12.x"
-      - run: |
-          cd my-app
-          npm ci
-      - run: |
-          cd my-app
-          npm run format:check
-      - run: |
-          cd my-app
-          npm test -- --coverage
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm test -- --coverage
         env:
           CI: true
+      - name: build Project
+        if: github.event_name == 'push'
+        run: npm run build
+
+      - name: Deploy Staging
+        if: githib.event_name ='push'
+        run: npx surge --project ./build --domain silent-apparatus.surge.sh
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        
