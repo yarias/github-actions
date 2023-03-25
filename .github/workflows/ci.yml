@@ -28,7 +28,7 @@ jobs:
         run: npm run build
 
       - name: Deploy Staging
-        if: githib.event_name ='push'
+        if: githib.event_name == 'push'
         run: npx surge --project ./build --domain silent-apparatus.surge.sh
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
