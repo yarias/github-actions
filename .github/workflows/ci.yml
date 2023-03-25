@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: use NodeJS
-        uses: action/setup-node@v1
+        uses: actions/setup-node@v1
         with: 
           node-versionL: "12.x"
       - run: npm CI
