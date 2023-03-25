@@ -32,4 +32,3 @@ Add a file to specify the names of the developer required to review pull request
 *.yml @yarias
 /public/ @yarias
 ```
-
