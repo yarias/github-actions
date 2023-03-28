@@ -10,7 +10,7 @@ jobs:
         with:
           token: ${{ secrets.TOKEN_GITHUB }}
           title: Title
-          bosy: Body
+          body: Body
           assignees: 'yarias'
       - run: |
           echo ${{ steps.issue.outputs.issue}}
