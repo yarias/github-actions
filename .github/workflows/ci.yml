@@ -2,9 +2,9 @@ name: CI
 
 on:
   pull_request:
-    branches: [develop]
+    branches: [develop, master]
   push:
-    branches: [develop]
+    branches: [develop, master]
 
 env: 
   working-directory: ./my-app
@@ -56,6 +56,12 @@ jobs:
         with: 
           name: build
           path: my-app/build
+        # Create a release with commit notes
+      - name: Create a Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: npx semantic-release
+        with: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # Deploy to Staging Server
       - name: Deploy Staging
         if: github.event_name == 'push'
