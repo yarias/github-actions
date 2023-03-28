@@ -1,0 +1,14 @@
+name: Hello World 
+author: Yermi Arioas
+description: some description
+inputs: 
+  who-to-greet:
+    description: "whot to greet"
+    required: true
+    default: Yermi 
+outputs:
+  time:
+    description: "The greeting time"
+runs:
+  using: "node12"
+  main: "dist/index.js"

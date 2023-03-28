@@ -23,6 +23,10 @@ that command can be also added into the package.json file in order to be execute
 }
 ```
 
+# Create an Action
+
+Private actions are the ones that do not have their own repositories.
+
 
 ## CODEOWNERRS
 
@@ -50,7 +54,7 @@ it is another package that can allow us to use git Hooks to run something before
 This will help to validate commit message is following the standard.
 
 
-Nedd to add follwong in package.json file. 
+Need to add follwong in package.json file. 
 
 ```json
 "husky":{
@@ -70,4 +74,20 @@ module.exports = {
 
 ## commitizen
 
-We can use commitezen to have an interactiove window to help create the commit message. 
+We can use commitezen to have an interactiove window to help create the commit message.
+
+## GitHub Actions
+
+Github provides an NPM package that helps do some stuff in our JS worflows.
+
+`github/toolki`
+there are other packages to use, but will use only these 2:
+
+install: `npm install @actions/github --save` and  `npm install @actions/core --save`
+
+## ncc package
+
+When we use @actions/core and @actions/github in `index.js`, those packages are not found because we do not upload node-module folder to github. To fix it we use `ncc` package to compile a Node.js project into a single file.
+
+install: `npm i -D @zeit/ncc`
+compile: `npx ncc build .github/actions/hello/index.js -o .github/actions/hello/dist`
