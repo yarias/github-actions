@@ -1,3 +1,5 @@
+![](https://github.com/yarias/github-actions/workflows/CI/badge.svg?branch=develop&event=push)
+
 # Surge
 
 it is used for static web publishing for Front-end developers 
@@ -41,3 +43,31 @@ You need to go to codecov.io and login using your guthub account, the in the url
 
 When the workflow is concluded, in codecov you can si the dashboard with the results.
 
+## husky
+
+it is another package that can allow us to use git Hooks to run something before we commit or before we push or before we do anything that is related to GIT.
+
+This will help to validate commit message is following the standard.
+
+
+Nedd to add follwong in package.json file. 
+
+```json
+"husky":{
+    "hooks": {
+        "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+}
+```
+
+and create a new commit.config.js file where exports:
+
+```js
+module.exports = {
+    extends: ['@commintlint/config-conventional']
+}
+```
+
+## commitizen
+
+We can use commitezen to have an interactiove window to help create the commit message. 
