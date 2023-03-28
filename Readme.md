@@ -58,6 +58,7 @@ module.exports = {
 }
 ```
 
+Run `npx semantic-release` for testing purposes.
 ## Conventional Commits
 
 <type>[optional scope]:<descri[ton]>

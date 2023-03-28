@@ -56,11 +56,17 @@ jobs:
         with: 
           name: build
           path: my-app/build
+      - name: ZIP Assets
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          zip -r build.zip ./build
+          zip -r coverage.zip ./coverage
+        working-directory: ${{ env.working-directory }}
         # Create a release with commit notes
       - name: Create a Release
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: npx semantic-release
-        with: 
+        env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # Deploy to Staging Server
       - name: Deploy Staging
