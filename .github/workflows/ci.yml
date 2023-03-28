@@ -19,7 +19,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.npm # where the dependecies cache is stored
-          key: ${{ runner.os }}-node-${{ hasFiles('**/package-lock.json') }} # key used to retreive the cache. Hash is used to validate if any package has changed, if so, created new one
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} # key used to retreive the cache. Hash is used to validate if any package has changed, if so, created new one
           # will look for keys with that prefix when the specified key is not found
           restore-keys: |
             ${{ runner.os }}-node-  
