@@ -3,7 +3,7 @@ author: Yermi Arioas
 description: some description
 inputs: 
   who-to-greet:
-    description: "whot to greet"
+    description: "who to greet"
     required: true
     default: Yermi 
 outputs:
