@@ -35,7 +35,9 @@ Add a file to specify the names of the developer required to review pull request
 
 ## Codecov
 
-Used o upload coverage reports 
+Used o upload coverage reports.
 
 You need to go to codecov.io and login using your guthub account, the in the url andd the path to your repo and generate an CODECOV_TOKEN for that repo and add it to the secrets in github.
+
+When the workflow is concluded, in codecov you can si the dashboard with the results.
 
