@@ -1,0 +1,20 @@
+name: "Opend GitHub Issue"
+author: 'Opens a github issue'
+description: "Opends a github issue"
+inputs:
+  token:
+    description: "Github token"
+    required: true
+  title:
+    description: "Issue Title"
+    required: true
+  body:
+    description: 'Issue Body'
+  assignees:
+    description: 'Issue assigees'
+outputs:
+  issue: # id of ouput
+    description: "The issue object as a json strring"
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
