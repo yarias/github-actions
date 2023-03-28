@@ -13,6 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+        # Cache dependencies
       - uses: actions/checkout@v2
       - name: Cache node_modules
         uses: actions/cache@v1
@@ -22,23 +23,40 @@ jobs:
           # will look for keys with that prefix when the specified key is not found
           restore-keys: |
             ${{ runner.os }}-node-  
+        # install Dependencies
       - name: use NodeJS
         uses: actions/setup-node@v1
         with: 
           node-version: "12.x"
+        # Check code formaing
       - run: npm ci
         working-directory: ${{ env.working-directory }}
       - run: npm run format:check
         working-directory: ${{ env.working-directory }}
+        # Run Auttomatd tests
       - run: npm test -- --coverage
         working-directory: ${{ env.working-directory }}
         env:
           CI: true
+        # Save Arttifacts
+      - name: Upload test coverage
+        uses: actions/upload-artifact@v1
+        with: 
+          name: code-coverage
+          path: coverage
+        # Buid Project
       - name: build Project
         if: github.event_name == 'push'
         run: npm run build
         working-directory: ${{ env.working-directory }}
-
+        # Save Arttifacts
+      - name: Upload build folder
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v1
+        with: 
+          name: build
+          path: build
+        # Deploy to Staging Server
       - name: Deploy Staging
         if: github.event_name == 'push'
         run: npx surge --project ./build --domain silent-apparatus.surge.sh
