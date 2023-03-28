@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, master]
+  push:
+    branches: [develop, master]
+
+env: 
+  working-directory: ./my-app
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+        SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+        SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+    steps:
+        # Cache dependencies
+      - uses: actions/checkout@v2
+      - name: Cache node_modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm # where the dependecies cache is stored
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} # key used to retreive the cache. Hash is used to validate if any package has changed, if so, created new one
+          # will look for keys with that prefix when the specified key is not found
+          restore-keys: |
+            ${{ runner.os }}-node-  
+        # install Dependencies
+      - name: use NodeJS
+        uses: actions/setup-node@v1
+        with: 
+          node-version: "12.x"
+        # Check code formaing
+      - run: npm ci
+        working-directory: ${{ env.working-directory }}
+      - run: npm run format:check
+        working-directory: ${{ env.working-directory }}
+        # Run Auttomatd tests
+      - run: npm test -- --coverage
+        working-directory: ${{ env.working-directory }}
+        env:
+          CI: true
+        # Save Arttifacts
+      - name: Upload test coverage
+        uses: actions/upload-artifact@v1
+        with: 
+          name: code-coverage
+          path: my-app/coverage
+        # Buid Project
+      - name: build Project
+        if: github.event_name == 'push'
+        run: npm run build
+        working-directory: ${{ env.working-directory }}
+        # Save Arttifacts
+      - name: Upload build folder
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v1
+        with: 
+          name: build
+          path: my-app/build
+      - name: ZIP Assets
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          zip -r build.zip ./build
+          zip -r coverage.zip ./coverage
+        working-directory: ${{ env.working-directory }}
+        # Create a release with commit notes
+      - name: Create a Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: npx semantic-release
+        env: 
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+        # Deploy to Staging Server only for develop branch
+      - name: Deploy Staging
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+        run: npx surge --project ./build --domain silent-apparatus.surge.sh
+        working-directory: ${{ env.working-directory }}
+        # Deploy to Production Server
+      - name: Deploy Staging
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: npx surge --project ./build --domain silent-apparatus.surge.sh
+        working-directory: ${{ env.working-directory }}
